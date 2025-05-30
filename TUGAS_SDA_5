@@ -79,3 +79,58 @@ def on_enter(e):
 def on_leave(e):
     e.widget['background'] = '#ffa726'
     e.widget['foreground'] = '#212121'
+root = tk.Tk()
+root.title("Proyek SDA - Aplikasi Skor")
+root.geometry("500x470")
+root.configure(bg="#212121")
+
+frame_welcome = tk.Frame(root, bg="#212121")
+
+frame_judul = tk.Frame(frame_welcome, bg="#212121")
+frame_judul.pack(fill='x', pady=(30,40))
+
+label_judul = tk.Label(frame_judul, text="Selamat Datang di Aplikasi SDA",
+                       font=("Consolas", 24, "bold"), fg="#ffa726", bg="#212121")
+label_judul.pack(expand=True)
+
+frame_tombol = tk.Frame(frame_welcome, bg="#212121")
+frame_tombol.pack()
+
+create_hover_button(frame_tombol, "Perkenalan", lambda: switch_frame(frame_perkenalan)).pack(pady=12)
+create_hover_button(frame_tombol, "Masuk ke Proyek SDA", lambda: switch_frame(frame_project)).pack(pady=12)
+create_hover_button(frame_tombol, "Keluar", root.quit).pack(pady=12)
+
+frame_perkenalan = tk.Frame(root, bg="#3a2f0b")
+
+frame_judul2 = tk.Frame(frame_perkenalan, bg="#3a2f0b")
+frame_judul2.pack(fill='x', pady=(30,30))
+
+label_judul2 = tk.Label(frame_judul2, text="Perkenalan Kelompok",
+                        font=("Consolas", 20, "bold"), fg="#ffcc00", bg="#3a2f0b")
+label_judul2.pack(expand=True)
+
+frame_isi = tk.Frame(frame_perkenalan, bg="#3a2f0b")
+frame_isi.pack(pady=(0,20))
+
+anggota = [
+    {"nama": "Ruddy Haristianata", "npm": "2457051011"},
+    {"nama": "Muhammad Rafi Al- Musthafa", "npm": "2457051009"},
+    {"nama": "Wildan Humam Alpasya", "npm": "2417051064"},
+    {"nama": "Fahmi Farizi", "npm": "2457051011"},
+]
+
+for i, m in enumerate(anggota, 1):
+    tk.Label(frame_isi, text=f"{i}. Nama: {m['nama']}", fg="#ffcc00", bg="#3a2f0b",
+             font=("Consolas", 12, "bold")).pack(anchor="w", padx=30)
+    tk.Label(frame_isi, text=f"   NPM: {m['npm']}", fg="#ffcc00", bg="#3a2f0b",
+             font=("Consolas", 12)).pack(anchor="w", padx=50)
+
+tk.Label(frame_perkenalan, text="Kelas: Ilmu Komputer Semester 2", fg="#ffcc00", bg="#3a2f0b",
+         font=("Consolas", 14, "bold")).pack(pady=10)
+
+tk.Label(frame_perkenalan, text="Deskripsi: Proyek ini adalah aplikasi untuk mencatat dan\nmengelola skor siswa berdasarkan teori SDA.",
+         fg="#ffcc00", bg="#3a2f0b", font=("Consolas", 12), justify="center").pack(pady=10)
+
+frame_tombol2 = tk.Frame(frame_perkenalan, bg="#3a2f0b")
+frame_tombol2.pack(pady=20)
+create_hover_button(frame_tombol2, "Kembali ke Menu Awal", lambda: switch_frame(frame_welcome)).pack()

@@ -1,1 +1,36 @@
+import tkinter as tk
+from tkinter import messagebox
+import csv
+import os
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib.pyplot as plt
 
+def cek_file_csv():
+    if not os.path.exists("skor.csv"):
+        with open("skor.csv", mode="w", newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow(["Nama", "Skor"])
+
+def simpan_skor(nama, skor_baru):
+    cek_file_csv()
+    data = {}
+    with open("skor.csv", mode="r") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            data[row["Nama"]] = int(row["Skor"])
+    if nama in data:
+        if skor_baru > data[nama]:
+            data[nama] = skor_baru
+    else:
+        data[nama] = skor_baru
+    with open("skor.csv", mode="w", newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(["Nama", "Skor"])
+        for n, s in data.items():
+            writer.writerow([n, s])
+
+def reset_skor():
+    with open("skor.csv", mode="w", newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(["Nama", "Skor"])
+    messagebox.showinfo("Reset", "Semua skor telah direset.")

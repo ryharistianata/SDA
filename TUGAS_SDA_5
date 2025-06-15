@@ -74,3 +74,54 @@ def tampilkan_chart():
     canvas = FigureCanvasTkAgg(fig, master=chart_win)
     canvas.draw()
     canvas.get_tk_widget().pack()
+# Hover Button nya ==============================================================================
+
+def create_hover_button(parent, text, command):
+    b = tk.Button(parent, text=text, command=command, bg="#4fc3f7", fg="#212121",
+                  activebackground="#0288d1", font=("Consolas", 12, "bold"), padx=10, pady=5, width=30)
+    b.bind("<Enter>", on_enter)
+    b.bind("<Leave>", on_leave)
+    return b
+
+def on_enter(e):
+    e.widget['background'] = '#81d4fa'
+    e.widget['foreground'] = '#333333'
+
+def on_leave(e):
+    e.widget['background'] = '#4fc3f7'
+    e.widget['foreground'] = '#212121'
+
+def switch_frame(frame):
+    for f in [frame_welcome, frame_perkenalan, frame_project, frame_kuis]:
+        f.pack_forget()
+    frame.pack(fill='both', expand=True)
+
+# =================================================================================
+root = tk.Tk()
+root.title("Project UAP - KUIS")
+root.geometry("500x500")
+root.configure(bg="#212121")
+
+# Frame Wellcome nya ==================================================================================
+frame_welcome = tk.Frame(root, bg="#212121")
+tk.Label(frame_welcome, text="=+=++= SELAMAT DATANG =+=++=", font=("Consolas", 20, "bold"), fg="#4fc3f7", bg="#212121").pack(pady=(30, 40))
+frame_tombol = tk.Frame(frame_welcome, bg="#212121")
+frame_tombol.pack()
+create_hover_button(frame_tombol, "KAMI", lambda: switch_frame(frame_perkenalan)).pack(pady=10)
+create_hover_button(frame_tombol, "MENU", lambda: switch_frame(frame_project)).pack(pady=10)
+create_hover_button(frame_tombol, "KUIS", lambda: minta_nama()).pack(pady=10)
+create_hover_button(frame_tombol, "EXIT", root.quit).pack(pady=(25, 15))  # <- bottom
+
+# F Kelompok ====================================================================================
+frame_perkenalan = tk.Frame(root, bg="#3a2f0b")
+tk.Label(frame_perkenalan, text="KELOMPOK", font=("Consolas", 18, "bold"), fg="#ffcc00", bg="#3a2f0b").pack(pady=(30, 20))
+
+anggota = [
+    {"nama": "Ruddy Haristianata", "npm": "2457051011"},
+    {"nama": "Muhammad Rafi Al-Musthafa", "npm": "2457051009"},
+    {"nama": "Wildan Humam Alpasya", "npm": "2417051064"},
+    {"nama": "Fahmi Farizi", "npm": "2457051011"},
+]
+
+frame_nama = tk.Frame(frame_perkenalan, bg="#3a2f0b")
+frame_nama.pack()

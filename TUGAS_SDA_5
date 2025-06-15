@@ -212,3 +212,38 @@ def mulai_kuis():
     skor = 0
     switch_frame(frame_kuis)
     tampilkan_soal()
+
+def tampilkan_soal():
+    for widget in frame_kuis.winfo_children():
+        widget.destroy()
+    if index_soal >= len(pertanyaan_kuis):
+        messagebox.showinfo("Selesai", f"Kuis selesai!\nSkor kamu: {skor}")
+        simpan_skor(nama_pemain, skor)
+        switch_frame(frame_welcome)
+        return
+
+    soal = pertanyaan_kuis[index_soal]
+    tk.Label(frame_kuis, text=f"Skor: {skor}", fg="#4fc3f7", bg="#212121", font=("Consolas", 14)).pack(pady=(10,5))
+    tk.Label(frame_kuis, text=soal["soal"], fg="#ffffff", bg="#212121", font=("Consolas", 14, "bold"), wraplength=480).pack(pady=20)
+
+    import random
+    opsi_acak = soal["opsi"][:]
+    random.shuffle(opsi_acak)
+    for opsi in opsi_acak:
+        b = tk.Button(frame_kuis, text=opsi, font=("Consolas", 12),
+                      bg="#4fc3f7", fg="#212121", activebackground="#0288d1",
+                      padx=10, pady=5, width=30,
+                      command=lambda o=opsi: cek_jawaban(o))
+        b.pack(pady=8)
+
+    create_hover_button(frame_kuis, "Kembali", lambda: switch_frame(frame_welcome)).pack(pady=(25, 35))  # bottom
+
+def cek_jawaban(jawaban):
+    global skor, index_soal
+    if jawaban == pertanyaan_kuis[index_soal]["jawaban"]:
+        skor += 10
+    index_soal += 1
+    tampilkan_soal()
+
+switch_frame(frame_welcome)
+root.mainloop()

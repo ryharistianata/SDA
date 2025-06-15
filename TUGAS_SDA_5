@@ -125,3 +125,90 @@ anggota = [
 
 frame_nama = tk.Frame(frame_perkenalan, bg="#3a2f0b")
 frame_nama.pack()
+for i, m in enumerate(anggota, 1):
+    tk.Label(frame_nama, text=f"{i}. Nama: {m['nama']} - NPM: {m['npm']}",
+             fg="#ffcc00", bg="#3a2f0b", font=("Consolas", 12),
+             anchor="center", justify="center").pack(pady=3)
+
+tk.Label(frame_perkenalan, text="\n ILMU KOMPUTER \n\n", fg="#ffcc00", bg="#3a2f0b", font=("Consolas", 14, "bold")).pack(pady=10)
+tk.Label(frame_perkenalan, text="Project ini adalah implementasi materi melalui KUIS.\n Untuk mencatat dan mengelola skor siswa berdasarkan teori SDA.", fg="#ffcc00", bg="#3a2f0b", font=("Consolas", 12), justify="center").pack(pady=10)
+create_hover_button(frame_perkenalan, "Kembali ke Menu Awal", lambda: switch_frame(frame_welcome)).pack(pady=20)
+
+# F. Project ================================================================================
+
+frame_project = tk.Frame(root, bg="#212121")
+tk.Label(frame_project, text="LIAT BAWAH YEE !!", font=("Consolas", 16, "bold"), fg="white", bg="#212121").pack(pady=(30, 20))
+create_hover_button(frame_project, "Tampilkan Skor Tertinggi", tampilkan_skor_tertinggi).pack(pady=10)
+create_hover_button(frame_project, "Tampilkan Chart", tampilkan_chart).pack(pady=10)
+create_hover_button(frame_project, "Reset Skor", reset_skor).pack(pady=10)
+create_hover_button(frame_project, "Kembali", lambda: switch_frame(frame_welcome)).pack(pady=(25, 35))
+
+# F.KUIS ==
+frame_kuis = tk.Frame(root, bg="#212121")
+
+pertanyaan_kuis = [
+    {"soal": "Tipe data manakah yang digunakan untuk menyimpan nilai desimal di C++?",
+     "opsi": ["Int", "Char", "Bool", "Double"], "jawaban": "Double"}, #1
+
+    {"soal": "Struktur kendali apakah yang digunakan untuk mengeksekusi perintah secara berulang selama kondisi bernilai benar??",
+     "opsi": ["If", "While", "Switch", "goto"], "jawaban": "While"}, #2
+
+    {"soal": "Bahasa yang dipelajari di semester satu dahulu ialah ...",
+     "opsi": ["C++", "C", "Java", "Pascal"], "jawaban": "C++"}, #3
+
+    {"soal": "Berapa keluaran dari kode berikut: cout << 2 + 3 * 4; ?",
+     "opsi": ["10", "12", "13", "14"], "jawaban": "14"}, #4
+
+    {"soal": "Apa tipe data dari variabel yang hanya bisa menyimpan nilai true atau false ?",
+     "opsi": ["Int", "Bool", "Char", "Float"], "jawaban": "Bool"}, #5
+
+    {"soal": "Operator manakah yang digunakan untuk mengakses anggota dari objek pointer?",
+     "opsi": [".", "*", "->", "&"], "jawaban": "->"}, #6
+
+    {"soal": "Dibawah ini yang tidak termaksud bahasa dalam Pemrogramman adalah...",
+     "opsi": ["C++", "K3", "Java", "Pascal"], "jawaban": "K3"}, #7
+
+    {"soal": "Library manakah yang harus di-include untuk menggunakan fungsi cout dalam C++ ?",
+     "opsi": ["<math.h>", "<stdio.h>", "<iostream>", "<stdlib.h>"], "jawaban": "<iostream>"}, #8
+
+    {"soal": "Operator yang digunakan untuk penjumlahan adalah ...",
+     "opsi": ["+", "-", "*", "/"], "jawaban": "+"}, #9
+
+    {"soal": "Nama Himpunan dari Mahasiswa Ilmu Komputer Adalah ...",
+     "opsi": ["HIMATIK", "HIMATRO", "HIMAHELA", "HIMAKOM"], "jawaban": "HIMAKOM"}, # 10
+
+    {"soal": "Siapa yang paling ganteng dibumi ...",
+     "opsi": ["Kiting", "Kiting", "Kiting", "Kiting"], "jawaban": "Kiting"}, # Bonus
+]
+
+index_soal = 0
+skor = 0
+nama_pemain = ""
+
+def minta_nama():
+    global nama_pemain
+    def simpan():
+        nonlocal entry
+        nama = entry.get().strip()
+        if nama:
+            global nama_pemain
+            nama_pemain = nama
+            top.destroy()
+            mulai_kuis()
+        else:
+            messagebox.showwarning("Peringatan", "Nama tidak boleh kosong!")
+
+    top = tk.Toplevel(root)
+    top.title("Input dibawah : ")
+    top.geometry("300x150")
+    tk.Label(top, text="NAMA NYET :").pack(pady=10)
+    entry = tk.Entry(top)
+    entry.pack(pady=5)
+    tk.Button(top, text="Mulai", command=simpan).pack(pady=10)
+
+def mulai_kuis():
+    global index_soal, skor
+    index_soal = 0
+    skor = 0
+    switch_frame(frame_kuis)
+    tampilkan_soal()
